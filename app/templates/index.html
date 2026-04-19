@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WB + Kaspi</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <h1>WB + Kaspi</h1>
+      <p class="subtitle">Вводишь запрос, ниже сразу товары из двух источников.</p>
+    </header>
+
+    <form class="search-form" method="get" action="/">
+      <input
+        type="search"
+        name="q"
+        value="{{ query }}"
+        placeholder="iphone 17 pro"
+        maxlength="256"
+        required
+        autofocus
+      >
+      <input
+        type="number"
+        name="limit"
+        value="{{ limit }}"
+        min="1"
+        max="120"
+        required
+      >
+      <button type="submit">Найти</button>
+    </form>
+
+    {% if query %}
+      <section class="summary">
+        <div>Запрос: <strong>{{ query }}</strong></div>
+        <div>Всего товаров: <strong>{{ items|length }}</strong></div>
+        <div><a href="/api/search?q={{ query|urlencode }}&limit={{ limit }}" target="_blank" rel="noreferrer">Открыть JSON API</a></div>
+      </section>
+
+      <section class="results">
+        <section class="source-block">
+          <div class="source-block__head">
+            <h2>Wildberries</h2>
+            <span>{{ grouped_items['wildberries']|length }}</span>
+          </div>
+
+          {% if grouped_items['wildberries'] %}
+            <div class="result-list">
+              {% for item in grouped_items['wildberries'] %}
+                <article class="item">
+                  <a class="item__title" href="{{ item.product_url }}" target="_blank" rel="noreferrer">{{ item.title }}</a>
+                  <div class="item__row">
+                    <span>{{ item.price if item.price is not none else '---' }} {{ item.currency }}</span>
+                    <span>{{ item.brand or 'Без бренда' }}</span>
+                    <span>{{ item.seller or 'Без продавца' }}</span>
+                  </div>
+                </article>
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="empty">WB ничего не вернул.</div>
+          {% endif %}
+        </section>
+
+        <section class="source-block">
+          <div class="source-block__head">
+            <h2>Kaspi</h2>
+            <span>{{ grouped_items['kaspi']|length }}</span>
+          </div>
+
+          {% if grouped_items['kaspi'] %}
+            <div class="result-list">
+              {% for item in grouped_items['kaspi'] %}
+                <article class="item">
+                  <a class="item__title" href="{{ item.product_url }}" target="_blank" rel="noreferrer">{{ item.title }}</a>
+                  <div class="item__row">
+                    <span>{{ item.price if item.price is not none else '---' }} {{ item.currency }}</span>
+                    <span>{{ item.brand or 'Без бренда' }}</span>
+                    <span>{{ item.seller or 'Без продавца' }}</span>
+                  </div>
+                </article>
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="empty">Kaspi ничего не вернул.</div>
+          {% endif %}
+        </section>
+      </section>
+
+      {% if statuses %}
+        <section class="status-list">
+          {% for status in statuses %}
+            <div class="status {{ 'status--ok' if status.ok else 'status--error' }}">
+              <strong>{{ 'WB' if status.source == 'wildberries' else 'Kaspi' }}</strong>
+              <span>{{ status.message or ('OK' if status.ok else 'Ошибка') }}</span>
+            </div>
+          {% endfor %}
+        </section>
+      {% endif %}
+    {% endif %}
+  </main>
+</body>
+</html>
