@@ -1,20 +1,11 @@
-:root {
-  --bg: #ffffff;
-  --fg: #111111;
-  --muted: #6b6b6b;
-  --line: #d9d9d9;
-  --ok: #1f7a1f;
-  --error: #b42318;
-}
-
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--fg);
+  background: #ffffff;
+  color: #111111;
   font: 14px/1.5 "Segoe UI", Arial, sans-serif;
 }
 
@@ -24,27 +15,14 @@ body {
   padding: 24px 0 40px;
 }
 
-.header {
-  margin-bottom: 16px;
-}
-
-.kicker {
-  margin: 0 0 8px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 12px;
-}
-
-.header h1 {
-  margin: 0 0 8px;
-  font-size: 32px;
-  line-height: 1.1;
+h1,
+h2,
+p {
+  margin-top: 0;
 }
 
 .subtitle {
-  margin: 0;
-  color: var(--muted);
+  color: #666666;
 }
 
 .search-form,
@@ -54,7 +32,7 @@ body {
 .source-block,
 .item,
 .empty {
-  border: 1px solid var(--line);
+  border: 1px solid #d9d9d9;
 }
 
 .search-form {
@@ -68,10 +46,9 @@ body {
 .search-form input,
 .search-form button {
   min-height: 42px;
-  border: 1px solid var(--line);
-  border-radius: 0;
-  background: #fff;
-  color: var(--fg);
+  border: 1px solid #d9d9d9;
+  background: #ffffff;
+  color: #111111;
   font: inherit;
 }
 
@@ -108,11 +85,11 @@ body {
 }
 
 .status--ok strong {
-  color: var(--ok);
+  color: #1f7a1f;
 }
 
 .status--error strong {
-  color: var(--error);
+  color: #b42318;
 }
 
 .results {
@@ -145,55 +122,31 @@ body {
 }
 
 .item {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
   padding: 10px;
 }
 
-.item__main {
-  min-width: 0;
-}
-
-.item__main a {
-  color: var(--fg);
+.item__title {
+  display: inline-block;
+  margin-bottom: 6px;
+  color: #111111;
   font-weight: 600;
   text-decoration: none;
 }
 
-.item__main a:hover {
+.item__title:hover {
   text-decoration: underline;
 }
 
-.item__meta {
+.item__row {
   display: flex;
   flex-wrap: wrap;
   gap: 6px 12px;
-  margin-top: 6px;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.item__price {
-  white-space: nowrap;
-  font-weight: 600;
+  color: #666666;
 }
 
 .empty {
   padding: 16px;
-  color: var(--muted);
-}
-
-.empty--full {
-  margin-top: 16px;
-}
-
-.empty--full p {
-  margin: 0;
-}
-
-.empty--full p + p {
-  margin-top: 6px;
+  color: #666666;
 }
 
 @media (max-width: 900px) {
@@ -213,12 +166,7 @@ body {
   }
 
   .summary,
-  .status,
-  .item {
+  .status {
     display: grid;
-  }
-
-  .item__price {
-    white-space: normal;
   }
 }

@@ -25,7 +25,7 @@ templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 async def index(
     request: Request,
     q: str = Query(default="", max_length=256),
-    limit: int = Query(default=24, ge=1, le=120),
+    limit: int = Query(default=20, ge=1, le=50),
 ) -> HTMLResponse:
     query = " ".join(q.split())
     items = []
@@ -50,7 +50,7 @@ async def index(
 @app.get("/api/search", response_model=SearchResponse)
 async def api_search(
     q: str = Query(..., min_length=1, max_length=256),
-    limit: int = Query(default=24, ge=1, le=120),
+    limit: int = Query(default=20, ge=1, le=50),
 ) -> SearchResponse:
     query = " ".join(q.split())
     items, statuses = await unified_search(query, per_source_limit=limit)
